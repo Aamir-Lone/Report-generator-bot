@@ -5,12 +5,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
-# TOGETHER_MODEL = os.getenv("TOGETHER_MODEL", "openchat/openchat-3.5-1210")
 TOGETHER_MODEL = os.getenv("TOGETHER_MODEL", "mistralai/Mistral-7B-Instruct-v0.1")
 if TOGETHER_API_KEY is None:
     raise EnvironmentError("TOGETHER_API_KEY is not set in your .env file")
 
-print("🔑 Together API Key (starts with):", TOGETHER_API_KEY[:12])
+# print("Together API Key (starts with):", TOGETHER_API_KEY[:12])
 
 def query_llm(prompt: str) -> str:
     url = "https://api.together.xyz/v1/chat/completions"
@@ -35,7 +34,7 @@ def query_llm(prompt: str) -> str:
     try:
         response.raise_for_status()
     except requests.exceptions.HTTPError as e:
-        print("❌ API Error Response:", response.text)
+        print("API Error Response:", response.text)
         raise e
 
     return response.json()["choices"][0]["message"]["content"].strip()
